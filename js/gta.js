@@ -52,7 +52,7 @@ function toggleBaseLayer(nr) {
  */
 function toggleOverlay(obj) {
     var layers = map.getLayersByName(obj.name);
-    if (layers.length == 1) {
+    if (layers.length === 1) {
         if (obj.checked === true) {
             layers[0].setVisibility(true);
         } else {
@@ -130,24 +130,19 @@ function init(){
     //        'http://gis.kademo.nl/cgi-bin/tilecache.cgi?',
     //        {layers: "osm", format: "image/png", transparent: false, bgcolor: "0x99b3cc"},
     //        {transitionEffect: 'resize',singleTile: false, buffer: 0, isBaseLayer: true, visibility: true, attribution: "osm enz.."});
-            
-    baselayers[1]= new OpenLayers.Layer.WMS(
-        "Mapcache", "http://mapcache.org/mapproxy/service",
-        {
-            LAYERS: 'nederland',
-            STYLES: '',
-            format: 'image/png8',
-            tiled: false,
-            tilesOrigin : map.maxExtent.left + ',' + map.maxExtent.bottom
-        },
-        {
-            transitionEffect: 'resize',
-            buffer: 0,
-            displayOutsideMaxExtent: true,
-            isBaseLayer: true,
-            yx : {'EPSG:28992' : false}
-        } 
-    );
+    baselayers[1] = new OpenLayers.Layer.TMS( "osm-rd-TMS",
+        "http://openbasiskaart.nl/mapcache/tms/",
+        { layername: 'osm@rd', type: "png", serviceVersion:"1.0.0",
+          gutter:0,buffer:0,isBaseLayer:true,transitionEffect:'resize',
+          tileOrigin: new OpenLayers.LonLat(-285401.920000,22598.080000),
+          resolutions:[3440.63999999999987267074,1720.31999999999993633537,860.15999999999996816769,430.07999999999998408384,215.03999999999999204192,107.51999999999999602096,53.75999999999999801048,26.87999999999999900524,13.43999999999999950262,6.71999999999999975131,3.35999999999999987566,1.67999999999999989342,0.84000000000000003553,0.42000000000000001776,0.21000000000000000888],
+          zoomOffset:0,
+          units:"m",
+          maxExtent: new OpenLayers.Bounds(-285401.920000,22598.080000,595401.920000,903401.920000),
+          projection: new OpenLayers.Projection("epsg:28992".toUpperCase()),
+          sphericalMercator: false
+        }
+    );        
 
     map.addLayers(baselayers);
 
